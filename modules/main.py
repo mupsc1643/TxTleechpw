@@ -7,8 +7,6 @@ import asyncio
 import requests
 import subprocess
 import speedtest
-import speedtest
-import speedtest
 import datetime
 import io
 from pyrogram import Client, filters
@@ -114,61 +112,43 @@ async def set_token(bot: Client, m: Message):
     TOKEN = new_token  # Update the token globally
     await m.reply_text(f"✅ Token updated successfully!")
 
-@bot.on_message(filters.command("speedtest"))
+@Client.on_message(filters.command("speedtest"))
 async def speedtest_command(client, message):
-    msg = await message.reply_text("Running Speedtest... Please wait...")
-
     try:
-        st = speedtest.Speedtest()
-        st.get_best_server()
-        download_speed = st.download() / 1_000_000  # Convert to Mbps
-        upload_speed = st.upload() / 1_000_000  # Convert to Mbps
-        ping = st.results.ping
-        server = st.get_best_server()
+        msg = await message.reply("⏳ Running speed test... Please wait.")
 
-        # Formatting server details
-        server_info = (
-            f"📡 SPEEDTEST SERVER\n"
-            f"├ Name: {server['name']}\n"
-            f"├ Country: {server['country']}, {server['cc']}\n"
-            f"├ Sponsor: {server['sponsor']}\n"
-            f"├ Latency: {ping} ms\n"
-            f"├ Latitude: {server['lat']}\n"
-            f"└ Longitude: {server['lon']}"
-        )
+        # Run Speedtest
+        s = st.Speedtest()
+        s.get_best_server()
+        download_speed = s.download() / 1_000_000  # Convert to Mbps
+        upload_speed = s.upload() / 1_000_000      # Convert to Mbps
+        ping = s.results.ping
+        server = s.get_best_server()
 
-        # Formatting speed test details
-        timestamp = datetime.datetime.utcnow().isoformat()
-        speed_info = (
-            f"⚡ SPEEDTEST INFO\n"
-            f"├ Upload: {upload_speed:.2f} MB/s\n"
-            f"├ Download: {download_speed:.2f} MB/s\n"
-            f"├ Ping: {ping} ms\n"
-            f"├ Time: {timestamp} UTC\n"
-            f"├ Data Sent: {st.results.bytes_sent / 1_000_000:.2f} MB\n"
-            f"└ Data Received: {st.results.bytes_received / 1_000_000:.2f} MB"
-        )
+        # Speedtest Results
+        result_text = f"""
+📊 Speedtest Results 📊
+--------------------------------
+🚀 Download Speed: {download_speed:.2f} Mbps  
+📤 Upload Speed: {upload_speed:.2f} Mbps  
+📶 Ping: {ping} ms  
+🌍 Server: {server['name']}, {server['country']}  
+🏢 ISP: {server['sponsor']}
+        """
 
-        # Generate image
-        img = Image.new("RGB", (600, 400), color=(20, 20, 20))
-        draw = ImageDraw.Draw(img)
-        font = ImageFont.load_default()
+        # Run Ookla Speedtest and Save Image
+        os.system("speedtest-cli --share > speedtest.txt")
+        with open("speedtest.txt", "r") as file:
+            for line in file:
+                if "http" in line:
+                    image_url = line.strip()
 
-        draw.text((20, 20), f"📊 Speedtest by Ookla", fill=(255, 255, 255), font=font)
-        draw.text((20, 50), f"Download: {download_speed:.2f} Mbps", fill=(255, 255, 255), font=font)
-        draw.text((20, 80), f"Upload: {upload_speed:.2f} Mbps", fill=(255, 255, 255), font=font)
-        draw.text((20, 110), f"Ping: {ping} ms", fill=(255, 255, 255), font=font)
-        draw.text((20, 140), f"Server: {server['name']}, {server['country']}", fill=(255, 255, 255), font=font)
-
-        img_bytes = io.BytesIO()
-        img.save(img_bytes, format="PNG")
-        img_bytes.seek(0)
-
-        await message.reply_photo(img_bytes, caption=f"{speed_info}\n\n{server_info}")
+        # Send Image + Results
+        await message.reply_photo(photo=image_url, caption=result_text)
         await msg.delete()
 
     except Exception as e:
-        await msg.edit_text(f"⚠️ Speedtest failed: {e}")
+        await message.reply(f"⚠️ Speedtest failed: {e}")
 
 
 
