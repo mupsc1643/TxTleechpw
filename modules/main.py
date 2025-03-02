@@ -105,7 +105,7 @@ async def set_token(bot: Client, m: Message):
     await m.reply_text(f"✅ Token updated successfully!")
 
 
-@Client.on_message(filters.command("speedtest"))
+@bot.on_message(filters.command("speedtest"))
 async def speedtest_command(client, message):
     msg = await message.reply_text("Running speed test... Please wait.")
 
