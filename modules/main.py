@@ -6,7 +6,7 @@ import time
 import asyncio
 import requests
 import subprocess
-import speedtest as st
+import speedtest
 import datetime
 import io
 from pyrogram import Client, filters
@@ -114,41 +114,40 @@ async def set_token(bot: Client, m: Message):
 
 @bot.on_message(filters.command("speedtest"))
 async def speedtest_command(client, message):
+    msg = await message.reply_text("⏳ Running speed test... Please wait.")
+
     try:
-        msg = await message.reply("⏳ Running speed test... Please wait.")
+        # Initialize Speedtest
+        st = speedtest.Speedtest()
+        st.get_best_server()
+        
+        # Get Speed Results
+        download_speed = st.download() / 1_000_000  # Convert to Mbps
+        upload_speed = st.upload() / 1_000_000      # Convert to Mbps
+        ping = st.results.ping
+        server = st.get_best_server()
+        
+        # Get Timestamp
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Run Speedtest
-        s = st.Speedtest()
-        s.get_best_server()
-        download_speed = s.download() / 1_000_000  # Convert to Mbps
-        upload_speed = s.upload() / 1_000_000      # Convert to Mbps
-        ping = s.results.ping
-        server = s.get_best_server()
+        # Format Results
+        result = (
+            f"📊 Server Speed Test Results 📊\n"
+            f"----------------------------------\n"
+            f"📅 Date & Time: {timestamp}\n"
+            f"🌍 Server: {server['name']}, {server['country']}\n"
+            f"🏢 ISP: {server['sponsor']}\n"
+            f"📥 Download Speed: {download_speed:.2f} Mbps\n"
+            f"📤 Upload Speed: {upload_speed:.2f} Mbps\n"
+            f"⏳ Ping: {ping:.2f} ms"
+        )
 
-        # Speedtest Results
-        result_text = f"""
-📊 Speedtest Results 📊
---------------------------------
-🚀 Download Speed: {download_speed:.2f} Mbps  
-📤 Upload Speed: {upload_speed:.2f} Mbps  
-📶 Ping: {ping} ms  
-🌍 Server: {server['name']}, {server['country']}  
-🏢 ISP: {server['sponsor']}
-        """
-
-        # Run Ookla Speedtest and Save Image
-        os.system("speedtest-cli --share > speedtest.txt")
-        with open("speedtest.txt", "r") as file:
-            for line in file:
-                if "http" in line:
-                    image_url = line.strip()
-
-        # Send Image + Results
-        await message.reply_photo(photo=image_url, caption=result_text)
-        await msg.delete()
+        # Send the Results
+        await msg.edit_text(result)
 
     except Exception as e:
-        await message.reply(f"⚠️ Speedtest failed: {e}")
+        print(f"Speed test error: {e}")  # Log error to the terminal
+        await msg.edit_text(f"⚠️ Speed test failed: {e}")
 
 
 
