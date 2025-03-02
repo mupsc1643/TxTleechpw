@@ -6,6 +6,7 @@ import time
 import asyncio
 import requests
 import subprocess
+import speedtest
 
 import core as helper
 from utils import progress_bar
@@ -102,6 +103,32 @@ async def set_token(bot: Client, m: Message):
 
     TOKEN = new_token  # Update the token globally
     await m.reply_text(f"✅ Token updated successfully!")
+
+
+@Client.on_message(filters.command("speedtest"))
+async def speedtest_command(client, message):
+    msg = await message.reply_text("Running speed test... Please wait.")
+
+    try:
+        st = speedtest.Speedtest()
+        st.get_best_server()
+        download_speed = st.download() / 1_000_000  # Convert to Mbps
+        upload_speed = st.upload() / 1_000_000  # Convert to Mbps
+        ping = st.results.ping
+
+        result = (
+            f"**Server Speed Test Results:**\n"
+            f"📥 **Download Speed:** {download_speed:.2f} Mbps\n"
+            f"📤 **Upload Speed:** {upload_speed:.2f} Mbps\n"
+            f"⏳ **Ping:** {ping:.2f} ms"
+        )
+
+        await msg.edit_text(result)
+
+    except Exception as e:
+        await msg.edit_text(f"Speed test failed: {e}")
+
+
 
 
 
