@@ -7,6 +7,14 @@ import asyncio
 import requests
 import subprocess
 import speedtest
+import speedtest
+import time
+import os
+from PIL import Image
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from pyrogram import Client, filters
 
 import core as helper
 from utils import progress_bar
@@ -104,29 +112,58 @@ async def set_token(bot: Client, m: Message):
     TOKEN = new_token  # Update the token globally
     await m.reply_text(f"✅ Token updated successfully!")
 
-
 @bot.on_message(filters.command("speedtest"))
 async def speedtest_command(client, message):
     msg = await message.reply_text("Running speed test... Please wait.")
 
     try:
+        # Run speed test
         st = speedtest.Speedtest()
         st.get_best_server()
         download_speed = st.download() / 1_000_000  # Convert to Mbps
         upload_speed = st.upload() / 1_000_000  # Convert to Mbps
         ping = st.results.ping
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
-        result = (
-            f"**Server Speed Test Results:**\n"
-            f"📥 **Download Speed:** {download_speed:.2f} Mbps\n"
-            f"📤 **Upload Speed:** {upload_speed:.2f} Mbps\n"
-            f"⏳ **Ping:** {ping:.2f} ms"
+        result_text = (
+            f"Ookla Speed Test Results\n"
+            f"🕒 Time: {timestamp}\n"
+            f"📍 Server: {st.get_best_server()['host']}\n"
+            f"📥 Download: {download_speed:.2f} Mbps\n"
+            f"📤 Upload: {upload_speed:.2f} Mbps\n"
+            f"⏳ Ping: {ping:.2f} ms"
         )
 
-        await msg.edit_text(result)
+        await msg.edit_text("Speed test completed! Generating image...")
+
+        # Take a screenshot of the Ookla Speedtest website
+        screenshot_path = "speedtest.png"
+        options = Options()
+        options.add_argument("--headless")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--window-size=1280x720")
+
+        service = Service("/usr/bin/chromedriver")  # Change this path if necessary
+        driver = webdriver.Chrome(service=service, options=options)
+
+        driver.get("https://www.speedtest.net/")
+        time.sleep(5)  # Wait for page to load
+        driver.save_screenshot(screenshot_path)
+        driver.quit()
+
+        # Crop and enhance the image
+        img = Image.open(screenshot_path)
+        cropped_img = img.crop((100, 150, 1100, 650))  # Adjust crop area as needed
+        cropped_img.save(screenshot_path)
+
+        # Send the text and image
+        await message.reply_photo(photo=screenshot_path, caption=result_text)
+        os.remove(screenshot_path)
 
     except Exception as e:
         await msg.edit_text(f"Speed test failed: {e}")
+
+
 
 
 
