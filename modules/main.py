@@ -6,7 +6,7 @@ import time
 import asyncio
 import requests
 import subprocess
-import speedtest
+import speedtest as st
 import datetime
 import io
 from pyrogram import Client, filters
