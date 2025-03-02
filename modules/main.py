@@ -16,9 +16,6 @@ from PIL import Image, ImageDraw, ImageFont
 import time
 import os
 from PIL import Image
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
 from pyrogram import Client, filters
 
 import core as helper
