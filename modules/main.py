@@ -114,9 +114,10 @@ async def set_token(bot: Client, m: Message):
 
 @bot.on_message(filters.command("speedtest"))
 async def speedtest_command(client, message):
-    msg = await message.reply_text("Running Speedtest... Please wait...")
+    msg = await message.reply_text("⏳ Running speed test... Please wait.")
 
     try:
+        # Run Speedtest
         st = speedtest.Speedtest()
         st.get_best_server()
         download_speed = st.download() / 1_000_000  # Convert to Mbps
@@ -124,45 +125,31 @@ async def speedtest_command(client, message):
         ping = st.results.ping
         server = st.get_best_server()
 
-        # Formatting server details
-        server_info = (
-            f"📡 SPEEDTEST SERVER\n"
-            f"├ Name: {server['name']}\n"
-            f"├ Country: {server['country']}, {server['cc']}\n"
-            f"├ Sponsor: {server['sponsor']}\n"
-            f"├ Latency: {ping} ms\n"
-            f"├ Latitude: {server['lat']}\n"
-            f"└ Longitude: {server['lon']}"
-        )
+        # Speedtest Results in Text
+        result_text = f"""
+🚀 Speedtest Results 🚀
+--------------------------------
+📥 Download Speed: {download_speed:.2f} Mbps  
+📤 Upload Speed: {upload_speed:.2f} Mbps  
+📶 Ping: {ping} ms  
+🌍 Server: {server['name']}, {server['country']}  
+🏢 ISP: {server['sponsor']}
+        """
 
-        # Formatting speed test details
-        timestamp = datetime.datetime.utcnow().isoformat()
-        speed_info = (
-            f"⚡ SPEEDTEST INFO\n"
-            f"├ Upload: {upload_speed:.2f} MB/s\n"
-            f"├ Download: {download_speed:.2f} MB/s\n"
-            f"├ Ping: {ping} ms\n"
-            f"├ Time: {timestamp} UTC\n"
-            f"├ Data Sent: {st.results.bytes_sent / 1_000_000:.2f} MB\n"
-            f"└ Data Received: {st.results.bytes_received / 1_000_000:.2f} MB"
-        )
+        # Run Speedtest CLI and Extract Image URL
+        os.system("speedtest-cli --share > speedtest.txt")
+        image_url = None
+        with open("speedtest.txt", "r") as file:
+            for line in file:
+                if "http" in line:
+                    image_url = line.strip()
+                    break  # Stop after finding the first URL
 
-        # Generate image
-        img = Image.new("RGB", (600, 400), color=(20, 20, 20))
-        draw = ImageDraw.Draw(img)
-        font = ImageFont.load_default()
+        if image_url:
+            await message.reply_photo(photo=image_url, caption=result_text)
+        else:
+            await message.reply_text(result_text)
 
-        draw.text((20, 20), f"📊 Speedtest by Ookla", fill=(255, 255, 255), font=font)
-        draw.text((20, 50), f"Download: {download_speed:.2f} Mbps", fill=(255, 255, 255), font=font)
-        draw.text((20, 80), f"Upload: {upload_speed:.2f} Mbps", fill=(255, 255, 255), font=font)
-        draw.text((20, 110), f"Ping: {ping} ms", fill=(255, 255, 255), font=font)
-        draw.text((20, 140), f"Server: {server['name']}, {server['country']}", fill=(255, 255, 255), font=font)
-
-        img_bytes = io.BytesIO()
-        img.save(img_bytes, format="PNG")
-        img_bytes.seek(0)
-
-        await message.reply_photo(img_bytes, caption=f"{speed_info}\n\n{server_info}")
         await msg.delete()
 
     except Exception as e:
