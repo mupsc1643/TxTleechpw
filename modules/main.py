@@ -112,6 +112,8 @@ async def set_token(bot: Client, m: Message):
     TOKEN = new_token  # Update the token globally
     await m.reply_text(f"✅ Token updated successfully!")
 
+
+
 @bot.on_message(filters.command("speedtest"))
 async def speedtest_command(client, message):
     msg = await message.reply_text("⏳ Running speed test... Please wait.")
@@ -127,13 +129,13 @@ async def speedtest_command(client, message):
 
         # Speedtest Results in Text
         result_text = f"""
-🚀 Speedtest Results 🚀
+🚀 **Speedtest Results** 🚀
 --------------------------------
-📥 Download Speed: {download_speed:.2f} Mbps  
-📤 Upload Speed: {upload_speed:.2f} Mbps  
-📶 Ping: {ping} ms  
-🌍 Server: {server['name']}, {server['country']}  
-🏢 ISP: {server['sponsor']}
+📥 **Download Speed:** {download_speed:.2f} Mbps  
+📤 **Upload Speed:** {upload_speed:.2f} Mbps  
+📶 **Ping:** {ping} ms  
+🌍 **Server:** {server['name']}, {server['country']}  
+🏢 **ISP:** {server['sponsor']}
         """
 
         # Run Speedtest CLI and Extract Image URL
@@ -145,8 +147,18 @@ async def speedtest_command(client, message):
                     image_url = line.strip()
                     break  # Stop after finding the first URL
 
+        # Download Image and Send
         if image_url:
-            await message.reply_photo(photo=image_url, caption=result_text)
+            img_response = requests.get(image_url)
+            if img_response.status_code == 200:
+                image_path = "speedtest_result.png"
+                with open(image_path, "wb") as img_file:
+                    img_file.write(img_response.content)
+                
+                await message.reply_photo(photo=image_path, caption=result_text)
+                os.remove(image_path)  # Cleanup downloaded image
+            else:
+                await message.reply_text("⚠️ Failed to download speedtest image.\n\n" + result_text)
         else:
             await message.reply_text(result_text)
 
@@ -154,6 +166,8 @@ async def speedtest_command(client, message):
 
     except Exception as e:
         await msg.edit_text(f"⚠️ Speedtest failed: {e}")
+
+
 
 
 
