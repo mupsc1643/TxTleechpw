@@ -28,4 +28,5 @@ Jinja2==3.0.3
 werkzeug==2.0.2
 itsdangerous==2.0.1
 pillow  # <--- Required for handling images
-numpy  # <--- Helps with performance in some cases
+numpy
+cloudscraper # <--- Helps with performance in some cases
