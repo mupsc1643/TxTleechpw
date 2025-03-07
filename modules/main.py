@@ -46,7 +46,7 @@ bot = Client(
 
 
 TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NDE0MzQzMTMuMTkyLCJkYXRhIjp7Il9pZCI6IjY1NzY4MGFiYWMxYmVkMDAxOGVhN2FjNSIsInVzZXJuYW1lIjoiODg1MTk1MDE5NyIsImZpcnN0TmFtZSI6IkFuc2hpdCIsImxhc3ROYW1lIjoiU2luZ2giLCJvcmdhbml6YXRpb24iOnsiX2lkIjoiNWViMzkzZWU5NWZhYjc0NjhhNzlkMTg5Iiwid2Vic2l0ZSI6InBoeXNpY3N3YWxsYWguY29tIiwibmFtZSI6IlBoeXNpY3N3YWxsYWgifSwicm9sZXMiOlsiNWIyN2JkOTY1ODQyZjk1MGE3NzhjNmVmIl0sImNvdW50cnlHcm91cCI6IklOIiwidHlwZSI6IlVTRVIifSwiaWF0IjoxNzQwODI5NTEzfQ.7iArCe3AwpnZm1Hl9rNkaPn0PY-EUv-bptHJuZEaTfM"
-AUTHORIZED_USERS = [123456789, 987654321]
+
 # Define aiohttp routes
 routes = web.RouteTableDef()
 
@@ -87,12 +87,6 @@ async def main():
     
 @bot.on_message(filters.command(["start"]))
 async def account_login(bot: Client, m: Message):
-user_id = message.from_user.id
-
-    # ✅ Check if user is authorized
-    if user_id not in AUTHORIZED_USERS:
-        return await message.reply_text("🚫 **Unauthorized User Detected!**\n\nFor access, contact @invisiblebots")
-
     editable = await m.reply_text(
        f"𝐇𝐞𝐥𝐥𝐨 ❤️\n\n◆〓◆ ❖ Hello I Am  InvisiblexTxT . I will Download urls from your .txt file", reply_markup=InlineKeyboardMarkup(
             [
