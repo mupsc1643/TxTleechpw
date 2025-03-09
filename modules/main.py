@@ -292,6 +292,11 @@ async def account_login(bot: Client, m: Message):
     input1: Message = await bot.listen(editable.chat.id)
     raw_text0 = input1.text
     await input1.delete(True)
+
+    await editable.edit("∝ Now Please Send You App Name ")
+    input15: Message = await bot.listen(editable.chat.id)
+    hi_text0 = input15.text
+    await input15.delete(True)
     
 
     await editable.edit("∝ 𝐄𝐧𝐭𝐞𝐫 𝐄𝐞𝐬𝐨𝐥𝐮𝐭𝐢𝐨𝐧 🎬\n☞ 144,240,360,480,720,1080\nPlease Choose Quality")
@@ -380,8 +385,8 @@ async def account_login(bot: Client, m: Message):
 
             try:  
                 
-                cc = f'**[ 🎥 ] Vid_ID:** {str(count).zfill(3)}.** {𝗻𝗮𝗺𝗲𝟭}.mkv\n\n✉️ 𝐁𝐚𝐭𝐜𝐡 » {raw_text0}\n\n Downloaded By -{MR}**'
-                cc1 = f'**[ 📁 ] Pdf_ID:** {str(count).zfill(3)}. {𝗻𝗮𝗺𝗲𝟭}.pdf\n\n✉️ 𝐁𝐚𝐭𝐜𝐡 » {raw_text0}\n\n Downloaded By -{MR}**'
+                cc = f'**[ 🎥 ] Vid_ID:** {str(count).zfill(3)}.** {𝗻𝗮𝗺𝗲𝟭}.mkv\n\n✉️ 𝐁𝐚𝐭𝐜𝐡 » {raw_text0}\n\n App Name » {hi_text0} \n\n Downloaded By -{MR}**'
+                cc1 = f'**[ 📁 ] Pdf_ID:** {str(count).zfill(3)}. {𝗻𝗮𝗺𝗲𝟭}.pdf\n\n✉️ 𝐁𝐚𝐭𝐜𝐡 » {raw_text0}\n\n App Name » {hi_text0} \n\n  Downloaded By -{MR}**'
                 if "drive" in url:
                     try:
                         ka = await helper.download(url, name)
