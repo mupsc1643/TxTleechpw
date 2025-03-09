@@ -401,7 +401,7 @@ async def account_login(bot: Client, m: Message):
                 
                 elif ".pdf" in url:
                     try:
-                        Show = f"❊⟱ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 ⟱❊ »\n\n📝 𝐍𝐚𝐦𝐞 » `{name}\n`\n\n**🔗 𝐔𝐑𝐋 »** `{url}`"
+                        Show = f"❊⟱ ⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »⟱❊ »\n\n📝 𝐍𝐚𝐦𝐞 » `{name}\n`\n\n**🔗 𝐔𝐑𝐋 »** `@invisiblebots`"
                         prog = await m.reply_text(Show)
                         cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
                         download_cmd = f"{cmd} -R 25 --fragment-retries 25"
@@ -415,7 +415,7 @@ async def account_login(bot: Client, m: Message):
                         time.sleep(e.x)
                         continue
                 else:
-                    Show = f"❊⟱ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 ⟱❊ »\n\n📝 𝐍𝐚𝐦𝐞 » `{name}\n⌨ Quality » {raw_text2}`\n\n**🔗 𝐔𝐑𝐋 »** `{url}`"
+                    Show = f"❊⟱ ⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »⟱❊ »\n\n📝 𝐍𝐚𝐦𝐞 » `{name}\n⌨ Quality » {raw_text2}`\n\n**🔗 𝐔𝐑𝐋 »** `@Invisiblebots`"
                     prog = await m.reply_text(Show)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
@@ -426,7 +426,7 @@ async def account_login(bot: Client, m: Message):
 
             except Exception as e:
                 await m.reply_text(
-                    f"⌘ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐈𝐧𝐭𝐞𝐫𝐮𝐩𝐭𝐞𝐝\n{str(e)}\n⌘ 𝐍𝐚𝐦𝐞 » {name}\n⌘ 𝐋𝐢𝐧𝐤 » `{url}`"
+                    f"⌘ 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐈𝐧𝐭𝐞𝐫𝐮𝐩𝐭𝐞𝐝\n{str(e)}\n⌘ 𝐍𝐚𝐦𝐞 » {name}\n⌘ "
                 )
                 continue
 
