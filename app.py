@@ -10,20 +10,18 @@ def hello_world():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="https://sudor2spr.github.io/Documentation/assets/style.css">
-    <titleSudoR2spr Repository</title>
-	<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/SudoR2spr/SudoR2spr/main/assets/angel-op/Angel-ji.png">
+    <title> Welcome To Out TxT Leech Page Powered By - @Invisiblebots </title>
+	
 
 </head>
 
 <body>
     <div class="container" style="bg-dark text-red text-center py-3 mt-5">
-        <a href="https://telegram.me/teraboxdownloader_file" class="card">
+        
             <p>
-               ░█▀▀▄░▒█▄░▒█░▒█▀▀█░▒█▀▀▀░▒█░░░<br>
-               ▒█▄▄█░▒█▒█▒█░▒█░▄▄░▒█▀▀▀░▒█░░░<br>
-               ▒█░▒█░▒█░░▀█░▒█▄▄▀░▒█▄▄▄░▒█▄▄█<br>
-                                             <br>
+                  Welcome To Our Page Of Txt Leech Bot Made By -@Invisiblebots 
+		  Feature Are That It Download All Url From Your .txt File<br>
+                                            For Using And Support Contact @Invisiblebots <br>
 
                 <b>v2.0.0</b>
             </p>
@@ -31,12 +29,11 @@ def hello_world():
     </div>
 	<br></br><br></br><br></br>
 	<footer class="bg-dark text-white text-center py-3 mt-5">
-	<center><img loading="lazy" class="object-none object-center" src="https://graph.org/file/548b8b73c35af202bfdac.png" width="60" height="60">
-        Powered By 𝐖𝐎𝐎𝐃𝐜𝐫𝐚𝐟𝐭 
-		<img loading="lazy" class="object-none object-center" src="https://graph.org/file/548b8b73c35af202bfdac.png" width="60" height="60">
+        Powered By Invisible 
+	
 		<div class="footer__copyright">
             <p class="footer__copyright-info">
-                © 2024 Video Downloader. All rights reserved.
+                © 2025 Video Downloader. All rights reserved.
             </p>
         </div>
     </footer></center>
