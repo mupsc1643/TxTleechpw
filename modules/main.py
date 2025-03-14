@@ -91,11 +91,11 @@ async def account_login(bot: Client, m: Message):
        f"𝐇𝐞𝐥𝐥𝐨 ❤️\n\n◆〓◆ ❖ Hello I Am TXT Downloader Bot By .𓄂️𝆺𝅥⃝🕷️i̟ ‌⃪‌ ᷟ𓆩〭〬🕸️M̟i̟s̟s̟i̟o̟n̟ u̟p̟s̟c̟‌ 🖤. I will Download urls from your .txt file", reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("✜ 𝐉𝐨𝐢𝐧 𝐔𝐩𝐃𝐚𝐭𝐞 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 ✜" ,url=f"https://t.me/invisiblebots") ],
+                    InlineKeyboardButton("✜ 𝐉𝐨𝐢𝐧 𝐔𝐩𝐃𝐚𝐭𝐞 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 ✜" ,url=f"https://t.me/Missionupscoffcial") ],
                     [
-                    InlineKeyboardButton("✜ Nothing ✜" ,url="https://t.me/invisiblebots") ],
+                    InlineKeyboardButton("✜ Support✜" ,url="https://t.me/Mission_upscc") ],
                     [
-                    InlineKeyboardButton("🦋 𝐅𝐨𝐥𝐥𝐨𝐰 𝐌𝐞 🦋" ,url="https://t.me/invisiblebots") ]                               
+                    InlineKeyboardButton("🦋 𝐅𝐨𝐥𝐥𝐨𝐰 𝐌𝐞 🦋" ,url="https://t.me/Missionupscoffcial") ]                               
             ]))
 
 
@@ -401,7 +401,7 @@ async def account_login(bot: Client, m: Message):
                 
                 elif ".pdf" in url:
                     try:
-                        Show = f"❊⟱ ⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »⟱❊ »\n\n📝 𝐍𝐚𝐦𝐞 » `{name}\n`\n\n**🔗 𝐔𝐑𝐋 »** `@invisiblebots`"
+                        Show = f"❊⟱ ⥥ 🄳🄾🅆🄽🄻🄾🄰🄳🄸🄽🄶⬇️⬇️... »⟱❊ »\n\n📝 𝐍𝐚𝐦𝐞 » `{name}\n`\n\n**🔗 𝐔𝐑𝐋 »** `@Mission_upscc`"
                         prog = await m.reply_text(Show)
                         cmd = f'yt-dlp -o "{name}.pdf" "{url}"'
                         download_cmd = f"{cmd} -R 25 --fragment-retries 25"
